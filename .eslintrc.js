@@ -19,5 +19,11 @@ module.exports = {
         "react"
     ],
     "rules": {
+        "react/react-in-jsx-scope": "off"
+    },
+    "settings": {
+        "react": {
+            "version": "999.999.999"   // It will default to "detect" in the future
+        }
     }
 };
