@@ -6,7 +6,8 @@ import Lock from '@material-ui/icons/Lock';
 import { makeStyles } from '@material-ui/core/styles';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
-import { auth } from '../../firebaseConfig'
+import { signIn, signOut } from '../../features/authentication/authSlice'
+import { useDispatch } from 'react-redux'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,14 +30,13 @@ const validationSchema = yup.object({
 });
 
 export default function Login() {
-  const classes = useStyles();
+  // const authen = useSelector();
+  // console.log(authen)
+  const dispatch = useDispatch()
 
+  const classes = useStyles();
   const handleLogout = () => {
-    auth.signOut().then(() => {
-      console.log('Sign out successful')
-    }).catch(() => {
-      // An error happened.
-    });
+    dispatch(signOut())
   }
 
   const formik = useFormik({
@@ -46,13 +46,7 @@ export default function Login() {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      auth.signInWithEmailAndPassword(
-        values.email, values.password
-        ).then(user => {
-        console.log(user)
-        }).catch(err => {
-        console.log(err)
-        })
+      dispatch(signIn(values))
     },
   });
 
